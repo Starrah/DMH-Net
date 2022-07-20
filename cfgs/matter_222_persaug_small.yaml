@@ -1,0 +1,56 @@
+DATA:
+  ROOT_DIR: ./data/matterport3d_layout
+  TYPE: "general"
+  DATASET: PerspectiveDataset
+  PREFIX: ~ # 不进行PREFIX筛选
+  USE_CORNER: ~ # None表示用全部数据，数组表示只使用指定角点的数据
+  AUGMENT:
+    stretch: True
+    flip: True
+    erase: True
+    gamma: True
+    noise: True
+  PERSPECTIVE_AUGMENT:
+      stretch: False
+      horizontal_flip: False # 因为全景图上已经有水平翻转了
+      vertical_flip: True
+      rotation: True
+      erase: False
+      gamma: False
+      noise: False
+
+MODEL:
+  BACKBONE:
+    PRIVATE_UPDOWN: True # 是否为视图的U面和D面使用单独的同一个backbone
+    PRIVATE_UP: True # # 是否分别为视图的U面和D面，使用单独的不同的两个backbone。仅在PRIVATE_UPDOWN设置为True时才有效。
+  HOUGH:
+    CLINE_TYPE: NEW
+    GRADUAL_LABEL:
+      XY: 0.96
+      CUPDOWN: 0.96
+
+POST_PROCESS:
+  METHOD: "noncuboid" # 可选值：LayoutNetv2、geometry、optimization、noncuboid、None
+  METHOD_WHEN_VALID: "None"
+  CPP: 0.0
+  ZPP: 0.0
+  ITER: 0
+  ITER_NZ: 1
+  DEFAULT_DISTANCE: 1.6
+  PEAK_HEIGHT: 0.1
+  PEAK_PROMINENCE: 0.025
+  PEAK_DISTANCE: 5
+  COR_IMG_CAL: ~ # 如何计算cor_img？取值 ~ "max" "merge"
+  V2:
+    FIRST_COLUMN_PROB: True # TODO 应该基本就是True比较有道理了
+    REFINE_V_TWICE: False # TODO 最好再试试，但优先级最低。（这里是True时，输给第二阶段的就已经是refine v过的了，那么SECOND_START_PROB是什么就都一样了）
+    SECOND_START_PROB: True # TODO 直觉应该是False，但不好说，也试试吧。优先级第二低
+    STRAIGHTEN_BY_PROB: True # TODO 直觉是True，也试试吧（这里是False时SECOND_START_PROB是什么都一样） 优先级最高
+    STRAIGHTEN_WHEN_BETTER: False
+    REMOVE_BAD_GROUND_POINT: "second" # 低于这个值的点，将不会在估计高度过程中被使用。取值：~ "second" "both"
+
+OPTIM:
+  MAX_EPOCH: 75
+  TYPE: Adam
+  LR: 0.0001
+  BATCH_SIZE: 8

@@ -1,0 +1,10 @@
+/.idea
+/venv
+/data
+/ckpt
+/logs
+*.out
+*.stdout
+/eval_result*
+/result_*
+/scratch*

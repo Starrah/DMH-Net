@@ -1,0 +1,37 @@
+DATA:
+  ROOT_DIR: ./data/layoutnet_dataset
+  TYPE: "cuboid"
+  DATASET: PerspectiveDataset
+  PREFIX: ["pano"]
+  AUGMENT:
+    stretch: True
+    flip: True
+    erase: True
+    gamma: True
+    noise: True
+
+MODEL:
+  BACKBONE:
+    PRIVATE_UPDOWN: False # 是否为视图的U面和D面使用单独的同一个backbone
+    PRIVATE_UP: False # # 是否分别为视图的U面和D面，使用单独的不同的两个backbone。仅在PRIVATE_UPDOWN设置为True时才有效。
+  HOUGH:
+    CLINE_TYPE: NEW
+    GRADUAL_LABEL:
+      XY: 0.96
+      CUPDOWN: 0.96
+
+POST_PROCESS:
+  METHOD: "optimization" # 可选值：LayoutNetv2、geometry、optimization、None
+  CPP: 0.0
+  ZPP: 0.0
+  ITER: 0
+  ITER_NZ: 1
+  DEFAULT_DISTANCE: 1.6
+  PEAK_HEIGHT: 0.2
+  PEAK_PROMINENCE: 0.0
+
+OPTIM:
+  MAX_EPOCH: 75
+  TYPE: Adam
+  LR: 0.0001
+  BATCH_SIZE: 8

@@ -1,0 +1,12 @@
+scipy==1.6.3
+tensorboard
+tqdm
+pyyaml
+easydict
+py360convert
+opencv-python
+shapely
+scikit-learn
+matplotlib
+imageio
+open3d==0.13.0.0
