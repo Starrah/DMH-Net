@@ -2,7 +2,9 @@ DMH-Net
 =====================   
 Code for 3D Room Layout Estimation from a Cubemap of Panorama Image via Deep Manhattan Hough Transform (ECCV 2022)
 
-> **Notice**: The code here **is enough to reproduce** the results in the article. However, due to time limit, the code has not been fully refactored and documented, and the code quality is somehow poor. The author will improve the repository, including refactoring the code, providing pretrained model, adding more document and so on in the near future. If you have any question or difficulty on running the code, please raise an issue.
+> If you have any question or difficulty on running the code, please raise an issue.
+
+> [2022.11.30] Pretrained models are available! See the [Pretrained Models](#pretrained-models) section. 
 
 ## Installation
 This project needs **python 3.7** (Other version may also be used, but is not tested.)
@@ -35,7 +37,12 @@ For copyright reasons, we cannot directly provide this dateset. You should visit
 python preprocess.py --img_glob origin_dataset/*.png --output_dir data/matterport3d_layout/img/
 ```
 
-## train
+## Pretrained Models
+You can browse and download the pretrained models from [here](https://drive.google.com/drive/folders/1GjbtQG9LYB0K1UpcTitnQL8uZD6A0wQ4?usp=share_link).  
+
+You should put the downloaded `.pth` files in `ckpt` folder. You may evaluate the model with instructions in the [Evaluate](#evaluate) section.
+
+## Train
 We provide 3 configs in the `cfgs` directory, corresponding to the 3 datasets.
 For example, to run training on PanoContext dataset:
 ```shell
@@ -49,7 +56,7 @@ Please use `python train.py -h` for more options.
 ## Evaluate
 To evaluate a model:
 ```shell
---cfg_file cfgs/panocontext.yaml --ckpt ckpt/dev/best_valid.pth --print_detail --visu_all --visu_path result_visu/dev
+python eval.py --cfg_file cfgs/panocontext.yaml --ckpt ckpt/dev/best_valid.pth --print_detail --visu_all --visu_path result_visu/dev
 ```
 Please use `python eval.py -h` for more options.
-You can see quantitative result at the end of the stdout output, and see qualitative result in `result_visu/dev` directory.
+You can see quantitative result at the end of the stdout output, and see qualitative result in the directory specified with the `--visu_path` options (`result_visu/dev` in the example above).  

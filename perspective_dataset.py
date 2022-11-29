@@ -482,8 +482,6 @@ class PerspectiveDataset(data.Dataset):
         :input: lines(n, 5) 五维分别代表x1,y1,x2,y2,线在视图中的类型-0竖直线1水平线2过中心线
         :return xPeaks, yPeaks, cUpPeaks（过中心的上半圈线）, cDownPeaks（过中心的下半圈线）
         """
-        if isinstance(lines, list):
-            lines = np.array(lines)
 
         def autoAbs(v):
             if isinstance(v, torch.Tensor):
