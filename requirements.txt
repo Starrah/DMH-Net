@@ -1,4 +1,4 @@
-scipy==1.6.3
+scipy==1.10.0
 tensorboard
 tqdm
 pyyaml
